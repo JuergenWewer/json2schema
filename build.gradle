@@ -1,0 +1,75 @@
+plugins {
+    id 'io.freefair.lombok' version '3.1.2'
+    id 'java-library'
+    id 'eclipse'
+}
+
+group 'jw.utils'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    ext {
+        //dependencies
+        springVersion = '5.1.5.RELEASE'
+        googlegsonVersion = '2.8.5'
+        kafkaVersion = '2.1.1'
+        javaxVersion = '2.0.1'
+        avroVersion = '1.8.2'
+        jacksondatabindVersion = '2.9.8'
+        junitVersion = '5.4.0'
+        commonsioVersion = '2.6'
+
+    }
+
+    implementation(
+            "com.google.code.gson:gson:$googlegsonVersion",
+            "org.springframework:spring-beans:$springVersion",
+            "org.springframework:spring-context:$springVersion",
+            "org.apache.avro:avro:$avroVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksondatabindVersion",
+            "javax.annotation:javax.annotation-api:1.3.2",
+            "ch.qos.logback:logback-classic:1.2.3",
+            "org.apache.commons:commons-lang3:3.8.1",
+            "com.fasterxml.jackson.module:jackson-module-jsonSchema:2.9.8"
+    )
+
+    testCompile (
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion",
+            "commons-io:commons-io:$commonsioVersion"
+    )
+    testImplementation('org.junit.jupiter:junit-jupiter:5.4.0')
+    
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+eclipse {
+    classpath {
+        file.whenMerged {
+            entries.findAll{it.kind == 'src'}.each {
+                if (it.path.contains('test/java')) {
+                    it.setOutput('build/classes/java/test/')
+                } else if (it.path.contains('test/resources')) {
+                    it.setOutput('build/resources/test/')
+                } else if (it.path.contains('main/resources')) {
+                    it.setOutput('build/resources/main/')
+                } else {
+                    it.setOutput('build/classes/java/main/')
+                }
+            }
+        }
+    }
+}
+
