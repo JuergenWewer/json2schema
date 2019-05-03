@@ -9,5 +9,6 @@ Or convert a Json to a Json Schema:
     JsonToSchema jsonToSchema = new JsonToSchema();
     String test = readFileToString(new File("src/test/resources/JsonSchemaTest.json"));
     String schema = jsonToSchema.convert2JsonSchema(test, false);
-    
+ 
+See also https://www.kafka-schulung.de for Apache Kafka related topics.
     
